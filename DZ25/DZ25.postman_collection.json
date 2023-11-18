@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "5bb426fd-2a1c-4853-9873-15853e8d4aba",
+		"name": "DZ25",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29597023"
+	},
+	"item": [
+		{
+			"name": "signUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let RequestBody = JSON.parse (pm.request.body)\r",
+							"let ResponseBody = pm.response.json();\r",
+							"pm.environment.set(\"Email\",RequestBody.email) \r",
+							"pm.environment.set(\"UserID\",ResponseBody.data.userId)\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(\"ok\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"name\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"Qwerty12345\",\r\n    \"repeatPassword\": \"Qwerty12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/auth/signup",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let carModel = 16+Math.floor(Math.random()*3)\r",
+							"pm.environment.set(\"carModel\",carModel) \r",
+							"\r",
+							"let mileage = Math.floor(Math.random()*9998)+1\r",
+							"pm.environment.set(\"mileage\",mileage)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{Email}}\",\r\n  \"password\": \"Qwerty12345\",\r\n  \"remember\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/auth/signin",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cars",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let ResponseBody = pm.response.json();\r",
+							"pm.environment.set(\"carId\",ResponseBody.data.id) \r",
+							"\r",
+							"let mileage_expenses = Math.floor(Math.random()*999998)+1\r",
+							"pm.environment.set(\"mileage_expenses\",mileage_expenses)\r",
+							"\r",
+							"let liters_expenses = Math.floor(Math.random()*9998)+1\r",
+							"pm.environment.set(\"liters_expenses\",liters_expenses)\r",
+							"\r",
+							"let total_expenses = Math.floor(Math.random()*999998)+1\r",
+							"pm.environment.set(\"total_expenses\",total_expenses)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carBrandId\": 4,\r\n  \"carModelId\": {{carModel}},\r\n  \"mileage\": {{mileage}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/cars",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "expenses",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carId\": {{carId}},\r\n  \"reportedAt\": \"2023-10-03\",\r\n  \"mileage\": {{mileage_expenses}},\r\n  \"liters\": {{liters_expenses}},\r\n  \"totalCost\": {{total_expenses}},\r\n  \"forceMileage\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/expenses",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

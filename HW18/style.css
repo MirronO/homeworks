@@ -1,0 +1,13 @@
+body
+{color: #462255;
+background: #FFA69E;
+}
+p {
+	font-size: 15px;
+	font-family: cursive;
+}
+.header {
+	font-family: cursive;
+}
+#photo {display: flex;
+  align-items: center;}
